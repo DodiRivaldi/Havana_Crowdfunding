@@ -73,6 +73,13 @@ li.menu-text{
     padding-bottom: 0px;
 }
 
+.menu > .search:hover{
+      background-color: #000000;
+      color: #ffffff;
+      padding-top:  0px;
+    padding-bottom: 0px;
+}
+
 .menu > li > a:hover{
     color: #ffffff;
 }
@@ -98,3 +105,36 @@ li.menu-text{
 .progress-meter{
     background-color: #a61717;
 }
+
+
+.sidebar li{
+    background-color: #999999;
+    color: #ffffff
+}
+
+.sidebar > a{
+    background-color: #999999;
+    color: #ffffff
+}
+
+.sidebar :hover{
+    background-color: #a61717;
+}
+.is-accordion-submenu-parent > a::after {
+    border-color: #a61717 transparent transparent;
+  
+}
+textarea {
+    height: auto;
+}
+
+.tabs-title {
+    color: #ffffff;
+    background-color: #a61717;
+}
+
+.tabs-title > a:focus, .tabs-title > a[aria-selected='true']{
+    background-color: #000000;
+    color: #ffffff;
+}
+

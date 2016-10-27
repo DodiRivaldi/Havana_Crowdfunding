@@ -14,17 +14,20 @@ $this->load->view('shared/header', $data);
 
         <div class="medium-7 large-6 columns" >
             <h1>Youth Starter</h1>
-            <p class="subheader">Youth Starter is a CrowdFunding platform for youth initiated projects.</p>
-            <?php if ($this->session->userdata('role') != NULL && $this->session->userdata('role') == 'project') { ?>
-                <a href="<?= base_url() ?>Project"><button class="button ">Manage Project</button></a>
-            <?php } else { ?>
-                <a href="<?= base_url() ?>Project"><button class="button ">Fund your Project</button></a>
+            <p class="subheader">Youth Starter is a CrowdFunding Platform for Youth Initiated Projects.</p>
+                <?php if (!$this->ion_auth->logged_in()) { ?>
+                <a href="<?= base_url() ?>auth/create_user"><button class="button large">Register Now</button></a>
+            <?php } ?>
+            <?php if ($this->ion_auth->logged_in()&& $this->ion_auth->in_group('Project')) { ?>
+                <a href="<?= base_url() ?>Project/details/<?=$project->ProjectId?>"><button class="button large">Manage <?=$project->Title?></button></a>
+            <?php } else if($this->ion_auth->logged_in()&& !$this->ion_auth->in_group('Project')){ ?>
+                <a href="<?= base_url() ?>Project/create"><button class="button large">Fund your Project</button></a>
             <?php } ?>
 
-            <?php if ($this->session->userdata('role') != NULL && $this->session->userdata('role') == 'funder') { ?>
-                <a href="<?= base_url() ?>Funder/"><button class="button primary" >Manage Profile</button></a>
-            <?php } else { ?>
-                <a href="<?= base_url() ?>Funder/"><button class="button primary" >Become a Funder</button></a>
+            <?php if ($this->ion_auth->logged_in() && $this->ion_auth->in_group('Funder')) { ?>
+                <a href="<?= base_url() ?>Funder/"><button class="button primary large" >Manage Profile</button></a>
+            <?php } else if($this->ion_auth->logged_in() && !$this->ion_auth->in_group('Funder')) { ?>
+                <a href="<?= base_url() ?>Funder/"><button class="button primary large" >Become a Funder</button></a>
             <?php } ?>
         </div>
 
@@ -66,11 +69,36 @@ $this->load->view('shared/header', $data);
     <br>
 
     <div class=" column expanded large-12 medium-12 small-12">
-        <h2 class="text-center">Youth Projects</h2>
+        <h2 class="text-center">&nbsp;</h2>
     </div>
 
-    <div class="row">
-        <div class=" small-up-1 medium-up-2 large-up-3 column " >   
+    <div class="row" data-equalizer>
+        <?php foreach ($projects as $project) {?>
+            <div class=" small-up-1 medium-up-2 large-up-3 column " data-equalizer-watch>   
+
+            <div class="column" >
+                <div class="callout">
+                    <h3><b><?=$project->Title?></b></h3>
+                    <!--<p><?=$project->Description?></p>-->
+                    <p><a href="<?= base_url() ?>Funder/fund_Project/"><img class="thumbnail" src="<?=base_url()?>/uploads/Projects/Profile/<?=$project->ProfilePic ?>" height="500" width="500" alt="Test"></a></p>
+                    <p class="lead"> <br><small>N$ 1000.00</small></p>
+                    <p class="subheader">End date is 25 January 2017.</p>
+                    <p class="subheader">Remaining Amount: N$ 200.00</p>
+                    <p><a href="<?= base_url() ?>Project/details_public/<?=$project->ProjectId?>"><button class="button">More Info</button></a> &nbsp; 
+                        <a href="<?= base_url() ?>Funder/fund_Project/"><button class="button success">Fund Us</button></a></p>
+                    <p></p>
+
+                    <div class="progress" role="progressbar" tabindex="0" aria-valuenow="800" aria-valuemin="0" aria-valuetext="N$ 200.00" aria-valuemax="1000">
+                        <div class="progress-meter" style="width: 70%"></div> 
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        
+        <?php } ?>
+<!--        <div class=" small-up-1 medium-up-2 large-up-3 column " >   
 
             <div class="column" >
                 <div class="callout">
@@ -89,7 +117,7 @@ $this->load->view('shared/header', $data);
                 </div>
             </div>
 
-        </div>
+        </div>-->
 
     </div>
     <ul class="pagination text-center" role="navigation" aria-label="Pagination">
@@ -104,6 +132,7 @@ $this->load->view('shared/header', $data);
         <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
     </ul>
 </div>
+
 
 <?php
 //Loading footer

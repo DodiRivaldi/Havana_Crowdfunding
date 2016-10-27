@@ -6,11 +6,13 @@
         <link rel="icon" href="<?= base_url() ?>favicon.ico" type="image/x-icon">
         <link type="text/css" href="<?= base_url() ?>css/foundation.css" rel="stylesheet" />                
         <link type="text/css" href="<?= base_url() ?>css/Font_Awesome/css/font-awesome.css" rel="stylesheet"/>
+                <link type="text/css" href="<?= base_url() ?>css/foundation-datepicker.css" rel="stylesheet"/> 
         <link type="text/css" href="<?= base_url() ?>css/app.css" rel="stylesheet"/>    
         
         
         <script src="<?= base_url() ?>js/vendor/jquery.js" type="text/javascript"></script>
-        <script src="<?= base_url() ?>js/vendor/foundation.js" type="text/javascript"></script>
+        <script src="<?= base_url() ?>js/vendor/foundation.js" type="text/javascript"></script> 
+        <script src="<?= base_url() ?>js/vendor/foundation-datepicker.js" type="text/javascript"></script>
         
 <!--        <script type='text/javascript' src='<?= base_url() ?>js/loadImg.js'></script>
         <script type='text/javascript'>

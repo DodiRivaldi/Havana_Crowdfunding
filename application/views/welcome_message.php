@@ -69,7 +69,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div id="container">
 	<h1>Welcome to CodeIgniter!</h1>
-
+<?php echo form_open('welcome');?> <?php echo $this->ckeditor->editor('description',@$default_value);?> <?php echo form_error('description','<p class="error">'); ?>
+  <input type="submit" name="submit" value="Save" id="save" class="save" />
+  <?php echo form_close();?>
 	<div id="body">
 		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
 

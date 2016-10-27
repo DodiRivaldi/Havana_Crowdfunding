@@ -26,7 +26,7 @@ class project_model extends CI_Model{
     public $email;
     public $facebook;
     public $active;
-    public  $dateCreated;
+    public $dateCreated;
     public $dateModified;
     
     
@@ -37,11 +37,21 @@ class project_model extends CI_Model{
     
     /**
      * Gets a project from db
-     * @param int $id
+     * @param int $id ProjectId
      * @return object
      */
     public function get_project($id){
-        return $project;
+        $query = $this->db->get_where("Projects" ,array("ProjectId" => $id));
+        return $query->row();
+    }
+    
+    /**
+     * Gets a project based on userid
+     * @param type $id UserId
+     */
+    public function get_user_project($id){
+        $query = $this->db->get_where('Projects', array('UserId' => $id));
+        return $query->row();
     }
     
     /**
@@ -49,7 +59,8 @@ class project_model extends CI_Model{
      * @return array
      */
     public function get_projects() {
-        return $projects;
+        $query = $this->db->get('Projects');
+        return $query->result();
     }
     
     /**
@@ -57,16 +68,58 @@ class project_model extends CI_Model{
      * @param object $project
      * @return object
      */
-    public function update_project($project) {
-        return $project;
+    public function update_project($id, $project, $pro_pic = NULL, $video = NULL) {
+        $curr = $this->get_project($id);
+        $this->projectId = $curr->ProjectId;
+        $this->title = $project["title"];
+        $this->description = $project["description"];
+        $this->email = $project["email"];
+        $this->address = $project["address"];
+        $this->telephone = $project["telephone"];
+        $this->userId = $project["userId"];
+        $this->categoryId = $project["category"];
+        $this->active = $curr->Active;
+        $this->profilePic = $curr->ProfilePic;
+        $this->video = $curr->Video;
+        $this->dateCreated = $curr->DateCreated;
+        $this->dateModified = new DateTime();
+        if ($pro_pic != null) {
+            $this->profilePic = $pro_pic;
+        } 
+        if ($video != null){
+            $this->video = $video;
+        }
+        return $this->db->update("Projects", $this, array("ProjectId" => $id));
     }
     
     /**
-     * Creates new project from $_POST values
-     * @return object
+     * Creates a new project
+     * @param string $title Project Title
+     * @param string $description Project Description
+     * @param int $userId Project owner user id
+     * @param string $address Project Address
+     * @param string $email Project Email Address
+     * @param string $profilePic Project profile picture path
+     * @param string $video Project profile video path
+     * @param int $category Category Id
+     * @return int Inserted Id
      */
-    public function create_project() {
-        return $project;
+    public function create_project($title, $description, $userId, $address,$email, $telephone ,$profilePic, $video, $category) {
+        $this->active = TRUE;
+        $this->dateCreated = new DateTime();
+        $this->dateModified = new DateTime();
+        $this->title = $title;
+        $this->description = $description;
+        $this->userId = $userId;
+        $this->address = $address;
+        $this->email = $email;
+        $this->telephone = $telephone;
+        $this->profilePic = $profilePic;
+        $this->video = $video;
+        $this->categoryId = $category;
+        $this->db->insert('projects', $this);
+        return $this->db->insert_id();
+        
     }
     
     /**
