@@ -24,8 +24,9 @@ $this->load->view('shared/header', $data);
         <?= form_input('telephone', '', array("id" => "contact", "required" => "required")) ?>
         <?= form_label('Project Email Address', 'contact') ?>
         <?= form_input('email', '', array("id" => "email", "required" => "required", "type" => "email")) ?>
-        <?= form_label('Project Description', 'description') ?>        
-        <?= form_textarea('description', '', array("id" => "description", "rows" => 2, "cols" => 2)) ?>
+        <?= form_label('Project Description', 'description') ?>
+        <?php echo $this->ckeditor->editor('description',isset($project->Description) ?$project->Description : "");?> <?php echo form_error('description','<p class="error">'); ?>
+        <!-- <?= form_textarea('description', '', array("id" => "description", "rows" => 2, "cols" => 2)) ?> -->
         <?= form_label('Physical Address', 'address') ?>
         <?= form_textarea('address', '', array("id" => "address", "rows" => "2", "cols" => "2")) ?>
         <?= form_fieldset_close() ?>

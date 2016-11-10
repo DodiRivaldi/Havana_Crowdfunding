@@ -21,9 +21,9 @@ $project_user = $this->ion_auth->user($project->UserId)->row();
                     <h1 class="text-center"><?= $project->Title ?></h1> 
                     <p class="text-center">by <?= $project_user->first_name ?>&nbsp;<?= $project_user->last_name ?></p>
                     <?php if ($this->ion_auth->logged_in()) { ?>
-                    <div class="text-center">
-                        <a href="<?=base_url()?>Campaign/create/<?=$projectId?>" class="button primary ">Create Funding Campaign</a>
-                    </div>
+                        <div class="text-center">
+                            <a href="<?= base_url() ?>Campaign/create/<?= $projectId ?>" class="button primary ">Create Funding Campaign</a>
+                        </div>
                     <?php } ?>
                 </div>
             </div>
@@ -34,10 +34,10 @@ $project_user = $this->ion_auth->user($project->UserId)->row();
                             <source src="<?= base_url() ?>/uploads/Projects/Profile/<?= $project->Video ?>"/>
                         </video>
                     </div>
-                    <?php if ($this->ion_auth->logged_in()) { ?>
-                    <div class="text-center">
-                        <a class="button info " href="<?= base_url() ?>Project/edit/<?= $project->ProjectId ?>">Edit Project Details</a>
-                    </div>
+                    <?php if ($this->ion_auth->logged_in() && $project->UserId == $this->ion_auth->user()->row()->id) { ?>
+                        <div class="text-center">
+                            <a class="button info " href="<?= base_url() ?>Project/edit/<?= $project->ProjectId ?>">Edit Project Details</a>
+                        </div>
                     <?php } ?>
                 </div>
             </div>
@@ -46,7 +46,7 @@ $project_user = $this->ion_auth->user($project->UserId)->row();
                 <div class="column large-8 meduim-8 small-8 callout" data-equalizer-watch >
 
                     <div class="media-object">
-                    <p><?= $project->Description ?></p>
+                        <p><?= $project->Description ?></p>
                     </div>
                 </div>
                 <div class="column small-4 meduim-4 large-4 callout" data-equalizer-watch>
@@ -102,9 +102,32 @@ $project_user = $this->ion_auth->user($project->UserId)->row();
             <!--</div>-->
         </div>
         <div class="tabs-panel" id="panel2">
+            <h2>Current Campaign</h2>
             <?php if ($this->ion_auth->logged_in()) { ?>
                 <button class="button primary">Create Funding Campaign</button>
+
             <?php } ?>
+            <?php if ($campaigns == NULL) { ?>
+                <p>No Campaigns Running!</p>
+            <?php } else { ?>
+                <?php
+                foreach ($campaigns as $campaign) {
+                    ?>
+                    <div class="callout"><?= $campaign->Description ?></div>
+                    <p><b>Start Date:</b> <?= $campaign->StartDate ?></p>
+                    <p><b>End Date:</b> <?= $campaign->EndDate ?></p>
+                    <p><b>Target Amount:</b> N$<?= $campaign->Amount ?></p>
+                    <p><b>Current Pledged:</b> N$<?= $campaign->Current ?></p>
+
+                    <div class="progress" role="progressbar" tabindex="0" aria-valuenow="800" aria-valuemin="0" aria-valuetext="N$ 200.00" aria-valuemax="1000">
+                        <div class="progress-meter" style="width: 70%"></div>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
+
+
         </div>
     </div>
 

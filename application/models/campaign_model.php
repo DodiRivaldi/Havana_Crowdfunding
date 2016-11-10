@@ -28,6 +28,12 @@ class campaign_model extends CI_Model {
     public $DateCreated;
     public $DateModified;
 
+    
+    public function get_all_campaigns(){
+        $query = $this->db->get("Campaigns");
+        return $query->result();
+    }
+    
     public function get_campaign($id, $projectId = NULL) {
         if($projectId == NULL){
             $query = $this->db->get_where("Campaigns", array("CampaignId" => $id));
@@ -40,6 +46,11 @@ class campaign_model extends CI_Model {
     public function get_project_campaigns($projectId) {
         $query = $this->db->get_where("Campaigns", array("ProjectId" => $projectId));
         return $query->result();
+    }
+    
+    public function get_project_campaigns_current($projectId) {
+        $query = $this->db->get_where("Campaigns", array("ProjectId" => $projectId));
+        return $query->row();
     }
     
     public function create_campaign($projectId, $startDate, $endDate, $description, $statusId, $amount){

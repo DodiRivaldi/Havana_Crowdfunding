@@ -15,7 +15,7 @@ echo validation_errors('<span class="error">', '</span>');
 <div class="columns" >
     <div class="medium-8 medium-centered large-8 large-centered small-8 small-centered">
         <h1>Campaign Create</h1> 
-        <?= form_open(base_url() . 'campaign/create') ?>
+        <?= form_open(base_url() . 'campaign/create/'. $projectId) ?>
         <?= form_hidden('projectId', $projectId) ?>
         <?= form_label('Campaign Description', 'description') ?>               
         <?php echo $this->ckeditor->editor('description', isset($project->Description) ? $project->Description : ""); ?> <?php echo form_error('description', '<p class="error">'); ?>
@@ -23,7 +23,7 @@ echo validation_errors('<span class="error">', '</span>');
         <?= form_label('Target Amount', 'Amount') ?>  
         <div class="row">
             <div class="small-8 columns">
-                <div class="slider" data-slider data-initial-start="500" data-step="100" data-end="10000">
+                <div class="slider" data-slider data-start="500" data-initial-start="500" data-step="100" data-end="10000">
                     <span class="slider-handle"  data-slider-handle role="slider" tabindex="1" aria-controls="Amount"></span>
                     <span class="slider-fill" data-slider-fill></span>
                 </div>

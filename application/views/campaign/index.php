@@ -11,6 +11,7 @@ $this->load->view('shared/header', $data);
 <div class="columns" >
     <div class="medium-6 medium-centered large-6 large-centered small-6 small-centered">
         <h1>Campaign <?=$projectId?> Index</h1> 
+        <?php        print_r($campaigns[0]);        print_r($projects[0])?>
     </div>
 </div>
 <?php

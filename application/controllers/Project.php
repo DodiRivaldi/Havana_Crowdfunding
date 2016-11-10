@@ -21,6 +21,7 @@ class Project extends CI_Controller {
         $this->load->library('form_validation');
         $this->load->helper('form');
         $this->load->model('project_model');
+        $this->load->model('campaign_model');
 //        if (!$this->ion_auth->logged_in()) {
 //            $data['is_loggedin'] = $this->ion_auth->logged_in();
 //            $this->load->view("auth/login", $data);
@@ -44,6 +45,8 @@ class Project extends CI_Controller {
         $data['is_loggedin'] = $this->ion_auth->logged_in();
         $data['projectId'] = $id;
         $data['project'] = $this->project_model->get_project($id);
+        $data['campaigns'] = $this->campaign_model->get_project_campaigns($id);
+       
         // Checking if user is logged in
         //if ($this->ion_auth->logged_in()) {
         $this->load->view("project/details", $data);
@@ -66,6 +69,9 @@ class Project extends CI_Controller {
     public function create() {
         $data['is_loggedin'] = $this->ion_auth->logged_in();
 
+        $path = '/YouthFund/js/ckfinder';
+        $width = '850px';
+        $this->editor($path, $width);
         //Setting validation rules
         $config = array(
             array(
@@ -80,7 +86,7 @@ class Project extends CI_Controller {
             array(
                 'field' => 'description',
                 'label' => 'Project Description',
-                'rules' => 'required|min_length[15]|max_length[240]'
+                'rules' => 'required|min_length[1]|max_length[10000]'
             ),
             array(
                 'field' => 'address',
@@ -90,7 +96,7 @@ class Project extends CI_Controller {
             array(
                 'field' => 'telephone',
                 'label' => 'Contact Number',
-                'rules' => 'required|min_length[15]|max_length[50]'
+                'rules' => 'required|min_length[5]|max_length[50]'
             ),
             array(
                 'field' => 'email',
@@ -108,8 +114,8 @@ class Project extends CI_Controller {
         $data['user'] = $this->ion_auth->user()->row();
         if ($this->input->post() != NULL && $this->form_validation->run()) {
 
-            print_r($this->input->post());
-            die();
+//            print_r($this->input->post());
+//            die();
             // print_r($_FILES);
             //Image upload
             $config['upload_path'] = './uploads/Projects/Profile/';
@@ -199,7 +205,7 @@ class Project extends CI_Controller {
 //            $vid = $this->upload->data();
 //            print_r($this->upload->display_errors());
               $this->project_model->update_project($id, $this->input->post());
-              $this->load->view("project/details", $data);
+              redirect("project/details/" . $id);
             
         } else {
             

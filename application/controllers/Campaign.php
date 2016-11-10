@@ -26,14 +26,21 @@ class Campaign extends CI_Controller {
     public function index ($projectId = "") {
         $data['is_loggedin'] = $this->ion_auth->logged_in();
         $data["projectId"] = $projectId;
+        $data["projects"] = $this->project_model->get_projects();
+        $data['campaigns'] = $this->campaign_model->get_all_campaigns();
         $this->load->view("campaign/index" , $data);
     }
     
-    public function create ($projectId = "") {
+    public function create ($projectId) {
         $data['is_loggedin'] = $this->ion_auth->logged_in();
         $data["projectId"] = $projectId;
         if($this->input->post()){
-            print_r($this->input->post());
+            $StartDate = new DateTime($this->input->post("StartDate"));
+            $EndDate = new DateTime($this->input->post("EndDate"));       
+           
+            $campaignId = $this->campaign_model->create_campaign($projectId, $StartDate, $EndDate, $this->input->post('description'), 1, $this->input->post('Amount'));
+            print_r($campaignId);
+            die();
         }
          $path = '/YouthFund/js/ckfinder';
         $width = '850px';
@@ -56,6 +63,7 @@ class Campaign extends CI_Controller {
         $this->ckeditor->config['width'] = $width;
         //configure ckfinder with ckeditor config 
         $this->ckfinder->SetupCKEditor($this->ckeditor, $path);
+        
     }
 
 }
